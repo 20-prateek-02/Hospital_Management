@@ -1,0 +1,116 @@
+/* Section styles */
+.section {
+    padding: 20px;
+}
+
+/* Container styles */
+.container-default {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Doctor container styles */
+.doctor-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    align-items: center;
+}
+
+.book-now-link {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #007bff; /* Blue background color */
+    color: #fff; /* White text color */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.book-now-link:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.subheading-wrapper,
+.doctor-template-name,
+.book-now-link {
+    margin-bottom: 0; /* Remove bottom margin */
+}
+
+@media (min-width: 768px) {
+    .doctor-container {
+        grid-template-columns: 1fr 2fr;
+    }
+}
+
+/* Content alignment */
+.content.left {
+    text-align: left;
+}
+
+/* Subheading styles */
+.subheading-wrapper {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.subheading {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    font-size: 2.5em; /* Adjust the size as needed */
+    font-weight: bold;
+    color: black; /* Adjust the color as needed */
+}
+
+.sufix-line {
+    width: 50px;
+    height: 3px;
+    background-color: #007bff;
+    margin: 0 auto 10px;
+}
+
+/* Doctor name styles */
+.doctor-template-name {
+    font-size: 36px;
+    font-weight: initial;
+    color: #333;
+}
+
+/* Contact information styles */
+.doctor-contact-information {
+    margin-top: 10px;
+}
+
+.icon-rounded {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.doctor-icon {
+    vertical-align: middle;
+}
+
+/* Biography styles */
+.rich-text.doctor-biography {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #444;
+    text-align: justify; 
+}
+
+/* Image border and animation */
+.image-border {
+    border: 2px solid #007bff; /* Border color */
+    border-radius: 10px; /* Rounded border */
+    transition: border-color 0.3s ease; /* Smooth transition animation */
+}
+
+.image-border:hover {
+    border-color: #ff6347; /* Change border color on hover */
+}

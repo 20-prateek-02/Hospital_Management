@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
     <title>SignUp/LogIn</title>
@@ -7,27 +8,26 @@
 <body>
     <div class="container" id="main">
         <div class="SignIn">
-            <form action="#">
+            <form id="signupForm" action="http://localhost:3000/signup" method="post" enctype= "multipart/form-data">
                 <h1 class="create-account">Create Account</h1>
-                <input type="text" name="text" placeholder="Name" required="">
-                <input type="tel" name="PhoneNumber" placeholder="Phone Number" required="">
-                <input type="email" name="Email" placeholder="Email" required="">
-                <input type="password" name="Passcode" placeholder="Passcode" required="">
-                <button>SignUp</button>
+                <input type="text" name="name" id="name" placeholder="Name" required="">
+                <input type="tel" name="mobile" id="phoneNumber" placeholder="Phone Number" required="">
+                <input type="email" name="email" id="email" placeholder="Email" required="">
+                <input type="password" name="password" id="password" placeholder="Passcode" required="">
+                <button type="submit">SignUp</button>
             </form>
         </div>
         <div class="LogIn">
-            <form action="#">
+            <form id="loginForm" action="http://localhost:3000/login" method="post">
                 <h1>LogIn</h1>
                 <br>
-                <input type="email" name="Email" placeholder="Email" required="">
-                <input type="password" name="Passcode" placeholder="Passcode" required="">
-                <a href="#">Forgot Your Passcode?</a>
-                <button>LogIn</button>
+                <input type="email" name="email" id="loginEmail" placeholder="Email" required="">
+                <input type="password" name="password" id="loginPassword" placeholder="Passcode" required="">
+                <button type="Submit">LogIn</button>
             </form>
         </div>
         <div class="overlay-container">
-           <div class="overlay">
+            <div class="overlay">
                 <div class="overlay-left">
                     <h1>Welcome!</h1>
                     <p>LogIn to stay connected</p>

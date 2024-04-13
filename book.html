@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Appointment Page</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+  }
+  .container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+  h2 {
+    margin-top: 0;
+    color: #333;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+  .button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+  }
+  .button:hover {
+    background-color: #0056b3;
+  }
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+  }
+  input[type="text"]:focus {
+    border-color: #007bff;
+  }
+  .appointment-section {
+    margin-bottom: 30px;
+  }
+  select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+    margin-bottom: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Appointment Booking</h2>
+
+  <div class="appointment-section">
+    <label for="dateSelect">Select a Date:</label>
+    <select id="dateSelect">
+      <option value="0">For the day</option>
+      <option value="1">Tomorrow</option>
+      <option value="2">Day after Tomorrow</option>
+      <option value="3">Third Day</option>
+    </select>
+    <h3 id="selectedDate"></h3>
+    <table id="selectedDayAppointments">
+      <tr>
+        <th>Time</th>
+        <th>Patient Name</th>
+      </tr>
+      <tr>
+        <td>09:00 AM</td>
+        <td><input type="text" id="patientName09AM" placeholder="Enter patient name"></td>
+      </tr>
+      <tr>
+        <td>11:00 AM</td>
+        <td><input type="text" id="patientName11AM" placeholder="Enter patient name"></td>
+      </tr>
+      <tr>
+        <td>01:00 PM</td>
+        <td><input type="text" id="patientName01PM" placeholder="Enter patient name"></td>
+      </tr>
+      <tr>
+        <td>03:00 PM</td>
+        <td><input type="text" id="patientName03PM" placeholder="Enter patient name"></td>
+      </tr>
+      <tr>
+        <td>05:00 PM</td>
+        <td><input type="text" id="patientName05PM" placeholder="Enter patient name"></td>
+      </tr>
+    </table>
+    <button class="button" onclick="bookAppointment()">Book</button>
+  </div>
+
+  <div class="appointment-section">
+    <h3>Appointments Scheduled</h3>
+    <table id="todayAppointments">
+      <tr>
+        <th>Time</th>
+        <th>Date</th>
+        <th>Patient Name</th>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<script>
+// Booked slots object to keep track of booked slots
+var bookedSlots = {
+  "09:00 AM": false,
+  "11:00 AM": false,
+  "01:00 PM": false,
+  "03:00 PM": false,
+  "05:00 PM": false
+};
+
+// Display selected day's date
+document.getElementById("dateSelect").addEventListener("change", function() {
+  var selectedDay = parseInt(this.value);
+  if (selectedDay === 0) {
+    displaySelectedDate(new Date());
+  } else if (selectedDay === 1) {
+    // If "Tomorrow" is selected, calculate tomorrow's date
+    var tomorrowDate = new Date();
+    tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+    displaySelectedDate(tomorrowDate);
+  } else {
+    // For other options, simply display the selected day's date
+    var selectedDate = new Date();
+    selectedDate.setDate(selectedDate.getDate() + selectedDay);
+    displaySelectedDate(selectedDate);
+  }
+  // Reset booked slots when day is changed
+  bookedSlots = {
+    "09:00 AM": false,
+    "11:00 AM": false,
+    "01:00 PM": false,
+    "03:00 PM": false,
+    "05:00 PM": false
+  };
+  resetInputFields();
+});
+
+function displaySelectedDate(selectedDate) {
+  var today = new Date();
+  var dd = selectedDate.getDate();
+  var mm = selectedDate.getMonth() + 1; // January is 0!
+  var yyyy = selectedDate.getFullYear().toString().substr(-2);
+  if (dd < 10) {
+    dd = '0' + dd;
+  }
+  if (mm < 10) {
+    mm = '0' + mm;
+  }
+  var selectedDateString = dd + '/' + mm + '/' + yyyy;
+
+  var todayString = '';
+  if (
+    today.getDate() === selectedDate.getDate() &&
+    today.getMonth() === selectedDate.getMonth() &&
+    today.getFullYear() === selectedDate.getFullYear()
+  ) {
+    todayString = 'Today: ' + selectedDateString;
+  } else {
+    todayString = 'Selected Date: ' + selectedDateString;
+  }
+  document.getElementById("selectedDate").textContent = todayString;
+}
+
+function bookAppointment() {
+  var todayAppointmentsTable = document.getElementById("todayAppointments");
+  var selectedDate = document.getElementById("selectedDate").textContent; // Get the selected date
+
+  var patientNames = [
+    document.getElementById("patientName09AM"),
+    document.getElementById("patientName11AM"),
+    document.getElementById("patientName01PM"),
+    document.getElementById("patientName03PM"),
+    document.getElementById("patientName05PM")
+  ];
+
+  var booked = false;
+  for (var i = 0; i < patientNames.length; i++) {
+    var time = patientNames[i].parentNode.previousElementSibling.textContent;
+    var patientName = patientNames[i].value.trim();
+    if (patientName !== "") {
+      if (bookedSlots[time]) {
+        alert("Slot " + time + " is already booked.");
+        booked = true;
+        break;
+      } else {
+        bookedSlots[time] = true;
+        var newRow = document.createElement("tr");
+        var newTimeCell = document.createElement("td");
+        var newDateCell = document.createElement("td"); // New cell for selected date
+        var newPatientNameCell = document.createElement("td");
+
+        newTimeCell.textContent = time;
+        newDateCell.textContent = selectedDate; // Set the selected date
+        newPatientNameCell.textContent = patientName;
+
+        newRow.appendChild(newTimeCell);
+        newRow.appendChild(newDateCell); // Append the date cell
+        newRow.appendChild(newPatientNameCell);
+
+        todayAppointmentsTable.appendChild(newRow);
+        patientNames[i].disabled = true;
+      }
+    }
+  }
+
+  if (!booked) {
+    alert("Appointment booked with the doctor.");
+  }
+}
+
+function resetInputFields() {
+  var patientNames = [
+    document.getElementById("patientName09AM"),
+    document.getElementById("patientName11AM"),
+    document.getElementById("patientName01PM"),
+    document.getElementById("patientName03PM"),
+    document.getElementById("patientName05PM")
+  ];
+
+  for (var i = 0; i < patientNames.length; i++) {
+    patientNames[i].value = "";
+    patientNames[i].disabled = false;
+  }
+}
+</script>
+
+</body>
+</html>
